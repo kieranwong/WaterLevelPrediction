@@ -37,11 +37,10 @@ import matplotlib.pyplot as plt
 
                 #### READ RAIN.####
 
-# rain datapoints are every 5 min. Date time concatenated.
-# there was a change in vendor in 2017.        
+# rain datapoints are every 5 min. Date time concatenated.        
 
 rainheader = ['datetime', 'reading']
-pathrain = 'S94_dump_16Jan19.csv'
+pathrain = 'rain.csv'
 rain = pd.read_csv(pathrain, names = rainheader, usecols=[0,1], skiprows=2)
 
 # define function to convert 24:00 to 00:00
@@ -58,7 +57,7 @@ rain['datetime'] = rain.datetime.apply(my_to_datetime)
                 #### READ AND PREPROCESS WATER LEVEL DATA TO ADD RATE.####
 
 levelheader = ['datetime', 'reading']
-pathlevel = 'EWS031_dump_16Jan19.csv'
+pathlevel = 'levels.csv'
 levelS031 = pd.read_csv(pathlevel, index_col=None, usecols=[0,1], skiprows = 2, names=levelheader)
 levelS031['datetime'] = pd.to_datetime(levelS031['datetime'], errors = 'coerce')
 levelS031['datetime'] = levelS031['datetime'].dt.strftime('%d/%m/%y %H:%M:%S')
@@ -71,7 +70,7 @@ levelS031 = levelS031.drop(['timediff'], axis=1)
 
                 #### CREATE EVENTS CATALOG ####
 # =============================================================================
-# #hide this chunk after running for the first time
+# #hide this chunk of code after running for the first time
 # events = rain
 # # drop all timesteps with zero rain
 # events = events[events.reading != 0]
